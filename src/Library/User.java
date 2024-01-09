@@ -5,6 +5,7 @@ public abstract class User {
     protected String name;
     protected String email;
     protected String phoneNumber;
+    protected IOOperation[] operations;
 
     public User(String name) {
         this.name = name;
