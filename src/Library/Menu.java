@@ -5,9 +5,8 @@ import java.util.Scanner;
 public class Menu {
 
     public Scanner sc;
-    
+
     public Database database;
-    
 
     public Menu() {
         sc = new Scanner(System.in);
@@ -15,29 +14,36 @@ public class Menu {
     }
 
     public void displayMenu() {
-        System.out.println("Welome to Library Management System!\n" + "1. Log\n2. New User");
-        sc = new Scanner(System.in);
-        int n = sc.nextInt();
+        System.out.println("Welome to Library Management System!");
+        int num;
+        do {
+            System.out.println("0.Exit\n1. Log\n2. New User");
+            sc = new Scanner(System.in);
+            num = sc.nextInt();
 
-        switch (n) {
-            case 1:
-                login();
-            case 2:
-                newUser();
-            default:
-                System.out.println("Error!");
-        }
+            switch (num) {
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    newUser();
+                    break;
+            }
+        } while (num != 0);
     }
-    
+
     // Este es un comentario de prueba
-    
     private void login() {
         System.out.println("Enter phone number: ");
         String phoneNumber = sc.next();
         System.out.println("Enter email: ");
         String email = sc.next();
-        if(database.login(phoneNumber, email) != -1) {
-            // https://youtu.be/A5zLwnUJtVc?list=PL-cxzMmn1xXG87ak7josmprqsp3da_Ovk&t=450
+        int n = database.login(phoneNumber, email);
+        if (n != -1) {
+            User user = database.getUser(n);
+            user.menu();
+        } else {
+            System.out.println("User doesn't exist!");
         }
     }
 
@@ -54,12 +60,14 @@ public class Menu {
         System.out.println("Usert type: ");
         System.out.println("1. Admin\n2. Normal User: ");
         int option = sc.nextInt();
-
+        User user;
         if (option == 1) {
-            User admin = new Admin(name, email, phoneNumber);
+            user = new Admin(name, email, phoneNumber);
         } else {
-            User user = new User(name, email, phoneNumber);
+            user = new NormalUser(name, email, phoneNumber);
         }
+        database.AddUser(user);
+        user.menu();
 
     }
 
