@@ -16,23 +16,22 @@ public class Menu {
     public void displayMenu() {
         System.out.println("Welome to Library Management System!");
         int num;
-        do {
-            System.out.println("0.Exit\n1. Log\n2. New User");
-            sc = new Scanner(System.in);
-            num = sc.nextInt();
+        // do {
+        System.out.println("0.Exit\n1. Log\n2. New User");
+        sc = new Scanner(System.in);
+        num = sc.nextInt();
 
-            switch (num) {
-                case 1:
-                    login();
-                    break;
-                case 2:
-                    newUser();
-                    break;
-            }
-        } while (num != 0);
+        switch (num) {
+            case 1:
+                login();
+                break;
+            case 2:
+                newUser();
+                break;
+        }
+        // } while (num != 0);
     }
 
-    // Este es un comentario de prueba
     private void login() {
         System.out.println("Enter phone number: ");
         String phoneNumber = sc.next();
@@ -41,7 +40,7 @@ public class Menu {
         int n = database.login(phoneNumber, email);
         if (n != -1) {
             User user = database.getUser(n);
-            user.menu();
+            user.menu(database, user);
         } else {
             System.out.println("User doesn't exist!");
         }
@@ -67,7 +66,7 @@ public class Menu {
             user = new NormalUser(name, email, phoneNumber);
         }
         database.AddUser(user);
-        user.menu();
+        user.menu(database, user);
 
     }
 
